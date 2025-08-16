@@ -1,31 +1,38 @@
 package io.github.eoinkanro.app.rtostranslator;
 
+import io.github.eoinkanro.app.rtostranslator.ocr.OcrProvider;
+import io.github.eoinkanro.app.rtostranslator.ocr.TesseractOcrProvider;
+import io.github.eoinkanro.app.rtostranslator.ocr.WindowsOcrProvider;
 import io.github.eoinkanro.app.rtostranslator.swing.ScreenAreaSelector;
 import java.awt.AWTException;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Paths;
-import net.sourceforge.tess4j.Tesseract;
+import java.util.List;
 import net.sourceforge.tess4j.TesseractException;
 
 public class ASd {
 
-  public static void main(String[] args) throws URISyntaxException, AWTException, TesseractException {
-    Tesseract tesseract = new Tesseract();
-
-    String data = Paths.get(ASd.class.getClassLoader().getResource("test2").toURI())
-        .toAbsolutePath().toString();
-    tesseract.setDatapath(data);
-    tesseract.setLanguage("eng");
+  public static void main(String[] args)
+      throws URISyntaxException, AWTException, TesseractException, IOException {
+    TesseractOcrProvider tesseractOcrProvider = new TesseractOcrProvider();
+    WindowsOcrProvider windowsOcrProvider = new WindowsOcrProvider();
 
     ScreenAreaSelector screenAreaSelector = new ScreenAreaSelector();
     Rectangle rectangle = screenAreaSelector.selectScreenArea().join();
     BufferedImage image = screenAreaSelector.captureScreen(rectangle);
 
-    String endlishText = tesseract.doOCR(image);
+    System.out.println("windows: " + windowsOcrProvider.getText(image));
+    System.out.println("tesseract: " + tesseractOcrProvider.getText(image));
 
-    System.out.println(endlishText);
+    rectangle = screenAreaSelector.selectScreenArea().join();
+    image = screenAreaSelector.captureScreen(rectangle);
+
+    System.out.println("windows: " + windowsOcrProvider.getText(image));
+    System.out.println("tesseract: " + tesseractOcrProvider.getText(image));
+
+    List.of(tesseractOcrProvider, windowsOcrProvider).forEach(OcrProvider::close);
   }
 
 }

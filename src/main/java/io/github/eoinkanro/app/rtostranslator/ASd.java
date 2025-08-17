@@ -3,7 +3,7 @@ package io.github.eoinkanro.app.rtostranslator;
 import io.github.eoinkanro.app.rtostranslator.ocr.OcrProvider;
 import io.github.eoinkanro.app.rtostranslator.ocr.TesseractOcrProvider;
 import io.github.eoinkanro.app.rtostranslator.ocr.WindowsOcrProvider;
-import io.github.eoinkanro.app.rtostranslator.swing.ScreenAreaSelector;
+import io.github.eoinkanro.app.rtostranslator.swing.ScreenAreaSelectorOverlay;
 import java.awt.AWTException;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -19,15 +19,15 @@ public class ASd {
     TesseractOcrProvider tesseractOcrProvider = new TesseractOcrProvider();
     WindowsOcrProvider windowsOcrProvider = new WindowsOcrProvider();
 
-    ScreenAreaSelector screenAreaSelector = new ScreenAreaSelector();
-    Rectangle rectangle = screenAreaSelector.selectScreenArea().join();
-    BufferedImage image = screenAreaSelector.captureScreen(rectangle);
+    ScreenAreaSelectorOverlay screenAreaSelectorOverlay = new ScreenAreaSelectorOverlay();
+    Rectangle rectangle = screenAreaSelectorOverlay.selectScreenArea().join();
+    BufferedImage image = screenAreaSelectorOverlay.captureScreen(rectangle);
 
     System.out.println("windows: " + windowsOcrProvider.getText(image));
     System.out.println("tesseract: " + tesseractOcrProvider.getText(image));
 
-    rectangle = screenAreaSelector.selectScreenArea().join();
-    image = screenAreaSelector.captureScreen(rectangle);
+    rectangle = screenAreaSelectorOverlay.selectScreenArea().join();
+    image = screenAreaSelectorOverlay.captureScreen(rectangle);
 
     System.out.println("windows: " + windowsOcrProvider.getText(image));
     System.out.println("tesseract: " + tesseractOcrProvider.getText(image));

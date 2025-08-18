@@ -30,21 +30,6 @@ import javax.swing.SwingUtilities;
 
 public class SettingsWindow {
 
-  private static final String GENERAL = "General";
-  private static final String OCR = "OCR";
-  private static final String TRANSLATOR = "Translator";
-
-  private static final String UPDATE_PERIOD_TOOLTIP = "How often to check screen";
-  private static final String OCR_TOOLTIP = "OCR recognizes text on images";
-
-  private static final String WINDOWS_DESCRIPTION = "Windows OCR works only on Windows OS."
-      + "\nNo extra settings required.";
-  private static final String TESSERACT_DESCRIPTION = "You can install it from: https://github.com/tesseract-ocr/tesseract"
-      + "\n\nAlso download model for source language and put it inside \"tesseract\" folder near jar."
-      + "\nAverage models: https://github.com/tesseract-ocr/tessdata"
-      + "\nSlowest models: https://github.com/tesseract-ocr/tessdata_best"
-      + "\n\nAdditional Information: https://tesseract-ocr.github.io/tessdoc/Data-Files";
-
   private boolean isOpened = false;
 
   public CompletableFuture<SettingsContext> selectSettings(SettingsContext currentSettings) {
@@ -80,6 +65,21 @@ public class SettingsWindow {
 
   private static class SettingsWindowFrame extends JFrame {
 
+    private static final String GENERAL = "General";
+    private static final String OCR = "OCR";
+    private static final String TRANSLATOR = "Translator";
+
+    private static final String UPDATE_PERIOD_TOOLTIP = "How often to check screen";
+    private static final String OCR_TOOLTIP = "OCR recognizes text on images";
+
+    private static final String WINDOWS_DESCRIPTION = "Windows OCR works only on Windows OS."
+        + "\nNo extra settings required.";
+    private static final String TESSERACT_DESCRIPTION = "You can install it from: https://github.com/tesseract-ocr/tesseract"
+        + "\n\nAlso download model for source language and put it inside \"tesseract\" folder near jar."
+        + "\nAverage models: https://github.com/tesseract-ocr/tessdata"
+        + "\nSlowest models: https://github.com/tesseract-ocr/tessdata_best"
+        + "\n\nAdditional Information: https://tesseract-ocr.github.io/tessdoc/Data-Files";
+
     private JComboBox<String> sourceLanguages;
     private JComboBox<String> targetLanguages;
     private SpinnerNumberModel updatePeriodModel;
@@ -87,6 +87,7 @@ public class SettingsWindow {
     private JComboBox<String> ocrEngines;
 
     private JComboBox<String> translator;
+    private JTextField modelField;
     private JTextField addressField;
     private SpinnerNumberModel portModel;
     private JTextArea promptArea;
@@ -276,6 +277,19 @@ public class SettingsWindow {
       panel.setAlignmentX(Component.LEFT_ALIGNMENT);
       panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
+      FontMetrics fontMetrics = panel.getFontMetrics(panel.getFont());
+
+      //------ Model ------
+      JLabel modelLabel = new JLabel("Model:");
+      modelLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+      panel.add(modelLabel);
+
+      modelField = new JTextField();
+      modelField.setAlignmentX(Component.LEFT_ALIGNMENT);
+      modelField.setText("qwen3:4b");
+      modelField.setMaximumSize(new Dimension(Integer.MAX_VALUE, fontMetrics.getHeight()));
+      panel.add(modelField);
+
       //------ Address -------
       JLabel addressLabel = new JLabel("Address:");
       addressLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -284,7 +298,6 @@ public class SettingsWindow {
       addressField = new JTextField();
       addressField.setAlignmentX(Component.LEFT_ALIGNMENT);
       addressField.setText("localhost");
-      FontMetrics fontMetrics = panel.getFontMetrics(panel.getFont());
       addressField.setMaximumSize(new Dimension(Integer.MAX_VALUE, fontMetrics.getHeight()));
       panel.add(addressField);
 
@@ -329,6 +342,7 @@ public class SettingsWindow {
       translator.setSelectedIndex(getDropdownIndex(settingsContext.getTranslatorEngine().getDisplayName(),
           translator.getModel()));
 
+      modelField.setText(settingsContext.getTranslatorModel());
       addressField.setText(settingsContext.getTranslatorAddress());
       portModel.setValue(settingsContext.getTranslatorPort());
       promptArea.setText(settingsContext.getTranslatorPrompt());
@@ -350,6 +364,7 @@ public class SettingsWindow {
           .updatePeriodMs(updatePeriodModel.getNumber().longValue())
           .ocrEngine(OcrEngine.fromDisplayName((String) ocrEngines.getSelectedItem()))
           .translatorEngine(TranslatorEngine.fromDisplayName((String) translator.getSelectedItem()))
+          .translatorModel(modelField.getText())
           .translatorAddress(addressField.getText())
           .translatorPort(portModel.getNumber().intValue())
           .translatorPrompt(promptArea.getText())

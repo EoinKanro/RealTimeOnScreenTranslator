@@ -2,6 +2,7 @@ package io.github.eoinkanro.app.rtostranslator.swing;
 
 import io.github.eoinkanro.app.rtostranslator.process.Message;
 import io.github.eoinkanro.app.rtostranslator.process.OpenSettingsMessage;
+import io.github.eoinkanro.app.rtostranslator.process.SelectAreaMessage;
 import io.github.eoinkanro.app.rtostranslator.process.StartStopMessage;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -106,13 +107,22 @@ public class ChatOverlay extends JFrame {
     actionButtons.add(startStopButton);
 
     MenuButton settingsButton = new MenuButton("Settings");
-    actionButtons.add(settingsButton);
     settingsButton.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
         output.add(new OpenSettingsMessage());
       }
     });
+    actionButtons.add(settingsButton);
+
+    MenuButton areaButton = new MenuButton("Area");
+    areaButton.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        output.add(new SelectAreaMessage());
+      }
+    });
+    actionButtons.add(areaButton);
 
     navigation.add(actionButtons, BorderLayout.WEST);
 

@@ -47,6 +47,9 @@ public class ChatOverlay extends JFrame {
   private JScrollPane chatScrollPane;
   private Deque<JPanel> chatMessages;
 
+  private JPanel statusBar;
+  private JLabel statusLabel;
+
   public ChatOverlay() {
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     setUndecorated(true);
@@ -57,6 +60,7 @@ public class ChatOverlay extends JFrame {
 
     createNavigationBar();
     createChatContent();
+    createStatusBar();
     enableResizing();
 
     setVisible(true);
@@ -159,6 +163,15 @@ public class ChatOverlay extends JFrame {
   }
 
   private void enableResizing() {
+    statusBar.addMouseListener(new ResizeMouseAdapter(this,
+        resizingPoint,
+        resizingBounds));
+
+    statusBar.addMouseMotionListener(new ResizeMouseMotionAdapter(
+        this,
+        resizingPoint,
+        resizingBounds));
+
     chatPanel.addMouseListener(new ResizeMouseAdapter(this,
         resizingPoint,
         resizingBounds));
@@ -167,6 +180,19 @@ public class ChatOverlay extends JFrame {
         this,
         resizingPoint,
         resizingBounds));
+  }
+
+  private void createStatusBar() {
+    statusBar = new JPanel();
+    statusBar.setLayout(new BorderLayout());
+    statusBar.setBackground(NAVIGATION_BACKGROUND);
+    statusBar.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+
+    statusLabel = new JLabel();
+    statusLabel.setForeground(Color.LIGHT_GRAY);
+    statusBar.add(statusLabel, BorderLayout.CENTER);
+
+    add(statusBar, BorderLayout.SOUTH);
   }
 
   public void addMessage(String text) {
@@ -197,6 +223,9 @@ public class ChatOverlay extends JFrame {
     scrollBar.setValue(scrollBar.getMaximum());
   }
 
+  public void changeStatus(String text) {
+    statusLabel.setText(text);
+  }
 
   @RequiredArgsConstructor
   private static class ResizeMouseAdapter extends MouseAdapter {
@@ -345,6 +374,7 @@ public class ChatOverlay extends JFrame {
     }
     chatFrame.addMessage("NEW MESSAGE");
     chatFrame.addMessage("NEW MESSAGE2");
+    chatFrame.changeStatus("TEST");
   }
 
 }

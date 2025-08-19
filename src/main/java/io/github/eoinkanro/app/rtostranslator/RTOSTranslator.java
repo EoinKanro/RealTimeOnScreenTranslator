@@ -162,11 +162,12 @@ public class RTOSTranslator {
       };
 
       isRunning = true;
-      long start = System.currentTimeMillis();
       long period = settingsContext.getUpdatePeriodMs();
       String lastTextToTranslate = null;
+
       while (isRunning) {
         try {
+          long start = System.currentTimeMillis();
           BufferedImage image = screenAreaSelectorOverlay.captureScreen(screenArea);
           chatOverlay.changeStatus("Getting text from screen...");
           String textToTranslate = ocrProvider.getText(image);
@@ -181,7 +182,6 @@ public class RTOSTranslator {
           if (withoutSleeping < period) {
             chatOverlay.changeStatus("Waiting period...");
             Thread.sleep(period - withoutSleeping);
-            start = System.currentTimeMillis();
           }
         } catch (InterruptedException e) {
           Thread.currentThread().interrupt();

@@ -1,9 +1,9 @@
 package io.github.eoinkanro.app.rtostranslator.swing.chat;
 
-import io.github.eoinkanro.app.rtostranslator.process.Message;
-import io.github.eoinkanro.app.rtostranslator.process.OpenSettingsMessage;
-import io.github.eoinkanro.app.rtostranslator.process.SelectAreaMessage;
-import io.github.eoinkanro.app.rtostranslator.process.StartStopMessage;
+import io.github.eoinkanro.app.rtostranslator.process.message.Message;
+import io.github.eoinkanro.app.rtostranslator.process.message.OpenSettingsMessage;
+import io.github.eoinkanro.app.rtostranslator.process.message.SelectAreaMessage;
+import io.github.eoinkanro.app.rtostranslator.process.message.StartStopMessage;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;

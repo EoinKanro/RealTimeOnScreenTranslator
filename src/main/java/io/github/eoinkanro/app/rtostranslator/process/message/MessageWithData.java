@@ -1,4 +1,4 @@
-package io.github.eoinkanro.app.rtostranslator.process;
+package io.github.eoinkanro.app.rtostranslator.process.message;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

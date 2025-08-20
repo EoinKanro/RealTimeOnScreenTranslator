@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class BottomResizeMouseAdapter extends MouseAdapter {
+class BottomResizeMouseAdapter extends MouseAdapter {
 
   /**
    * Frame that will be resized

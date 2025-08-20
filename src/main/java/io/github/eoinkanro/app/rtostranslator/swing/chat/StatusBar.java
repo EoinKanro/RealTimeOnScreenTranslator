@@ -6,7 +6,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class StatusBar extends JPanel {
+class StatusBar extends JPanel {
 
   private static final Color BACKGROUND = new Color(0, 0, 0, 229);
 

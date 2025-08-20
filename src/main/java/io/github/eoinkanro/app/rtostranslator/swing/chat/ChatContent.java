@@ -20,7 +20,7 @@ import javax.swing.Scrollable;
 import javax.swing.SwingUtilities;
 import lombok.Getter;
 
-public class ChatContent extends JPanel implements Scrollable {
+class ChatContent extends JPanel implements Scrollable {
 
   private static final int MAX_MESSAGES_COUNT = 50;
 

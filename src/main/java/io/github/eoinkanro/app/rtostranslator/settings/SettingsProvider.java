@@ -1,10 +1,10 @@
 package io.github.eoinkanro.app.rtostranslator.settings;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.eoinkanro.app.rtostranslator.utils.LogUtils;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.util.Arrays;
 
 public class SettingsProvider {
 
@@ -24,9 +24,7 @@ public class SettingsProvider {
 
             return objectMapper.readValue(content, SettingsContext.class);
         } catch (Exception e) {
-            //todo
-            System.out.println(e.getMessage());
-            System.out.println(Arrays.toString(e.getStackTrace()));
+            LogUtils.logError(e);
         }
         return SettingsContext.builder().build();
     }
@@ -37,7 +35,7 @@ public class SettingsProvider {
 
             Files.writeString(getSettingsFile().toPath(), content);
         } catch (Exception e) {
-            //todo
+            LogUtils.logError(e);
         }
     }
 

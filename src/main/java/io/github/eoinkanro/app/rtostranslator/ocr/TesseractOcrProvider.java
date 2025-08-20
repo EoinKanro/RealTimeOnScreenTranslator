@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 import io.github.eoinkanro.app.rtostranslator.settings.SettingsContext;
+import io.github.eoinkanro.app.rtostranslator.utils.LogUtils;
 import net.sourceforge.tess4j.Tesseract;
 import org.jspecify.annotations.Nullable;
 
@@ -24,7 +25,7 @@ public class TesseractOcrProvider implements OcrProvider {
     try {
       return tesseract.doOCR(image);
     } catch (Exception e) {
-      //todo
+        LogUtils.logError(e);
     }
     return null;
   }

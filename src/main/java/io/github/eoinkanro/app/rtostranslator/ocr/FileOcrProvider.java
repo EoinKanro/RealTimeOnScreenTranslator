@@ -1,5 +1,7 @@
 package io.github.eoinkanro.app.rtostranslator.ocr;
 
+import io.github.eoinkanro.app.rtostranslator.utils.LogUtils;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +18,7 @@ public abstract class FileOcrProvider implements OcrProvider {
       tmpFile.delete();
       return result;
     } catch (Exception e) {
-      //todo
+        LogUtils.logError(e);
     }
     return null;
   }

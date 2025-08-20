@@ -30,6 +30,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+//todo refactor
 public class RTOSTranslator {
 
   private BlockingQueue<Message> messages = new LinkedBlockingQueue<>();

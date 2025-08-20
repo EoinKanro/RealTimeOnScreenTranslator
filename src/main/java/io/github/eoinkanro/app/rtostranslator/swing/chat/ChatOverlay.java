@@ -65,6 +65,10 @@ public class ChatOverlay extends JFrame {
     chatContent.addMessage(text);
   }
 
+  public void updateRunningStatus(boolean isRunning) {
+      navigationBar.changeStartStopText(isRunning);
+  }
+
   public static void main(String[] args) {
     ChatOverlay chatFrame = new ChatOverlay(new LinkedBlockingQueue<>());
 

@@ -1,16 +1,14 @@
 package io.github.eoinkanro.app.rtostranslator.settings;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Setter
 @Getter
 @Builder(toBuilder = true)
 @EqualsAndHashCode
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class SettingsContext {
 
   @Builder.Default

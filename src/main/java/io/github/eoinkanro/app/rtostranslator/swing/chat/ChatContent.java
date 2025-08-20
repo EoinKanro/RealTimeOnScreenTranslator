@@ -17,6 +17,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.Scrollable;
+import javax.swing.SwingUtilities;
 import lombok.Getter;
 
 public class ChatContent extends JPanel implements Scrollable {
@@ -111,11 +112,22 @@ public class ChatContent extends JPanel implements Scrollable {
       remove(oldMessage);
     }
 
+    SwingUtilities.invokeLater(() -> {
+      messagePanel.validate();
+      textArea.validate();
+      textArea.paintImmediately(textArea.getBounds());
+      scrollToBottom();
+    });
+
     revalidate();
     repaint();
+  }
 
-    JScrollBar scrollBar = chatScrollPane.getVerticalScrollBar();
-    scrollBar.setValue(scrollBar.getMaximum());
+  private void scrollToBottom() {
+    SwingUtilities.invokeLater(() -> {
+      JScrollBar scrollBar = chatScrollPane.getVerticalScrollBar();
+      scrollBar.setValue(scrollBar.getMaximum());
+    });
   }
 
   @Override

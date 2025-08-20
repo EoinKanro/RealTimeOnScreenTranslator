@@ -67,11 +67,12 @@ public class ApplicationProcessor extends Thread {
     }
 
     private void selectScreenArea() {
-        //todo hide chat overlay
+        chatOverlay.setVisible(false);
         screenArea.set(screenAreaSelectorOverlay.selectScreenArea().join());
         if (translationProcessor != null) {
             translationProcessor.setScreenArea(screenArea.get());
         }
+        chatOverlay.setVisible(true);
     }
 
     private void restartTranslator() {

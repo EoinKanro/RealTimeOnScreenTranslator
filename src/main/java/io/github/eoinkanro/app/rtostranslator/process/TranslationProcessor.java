@@ -81,6 +81,7 @@ public class TranslationProcessor extends Thread implements Closeable {
             chatOverlay.changeStatus("Getting text from screen...");
             String textToTranslate = ocrProvider.getText(image);
 
+            //todo force translate
             if (textToTranslate != null) {
                 textToTranslate = textToTranslate.trim();
             }

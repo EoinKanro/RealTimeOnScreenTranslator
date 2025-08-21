@@ -27,6 +27,28 @@ dependencies {
     implementation("net.sourceforge.tess4j:tess4j:5.16.0")
 }
 
+jar {
+    manifest {
+        attributes(
+                'Main-Class': "io.github.eoinkanro.app.rtostranslator.RTOSTranslator",
+                'Implementation-Title': project.name,
+                'Implementation-Version': project.version
+        )
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+
+    } {
+        exclude 'META-INF/*.SF'
+        exclude 'META-INF/*.DSA'
+        exclude 'META-INF/*.RSA'
+        exclude 'META-INF/*.MF'
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 test {
     useJUnitPlatform()
 }

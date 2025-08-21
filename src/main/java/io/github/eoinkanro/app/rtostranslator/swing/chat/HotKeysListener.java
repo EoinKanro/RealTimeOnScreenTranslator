@@ -23,7 +23,7 @@ public class HotKeysListener implements NativeKeyListener {
     switch (event.getKeyCode()) {
       case NativeKeyEvent.VC_A -> output.add(new SelectAreaMessage());
       case NativeKeyEvent.VC_S -> output.add(new StartStopMessage());
-      case NativeKeyEvent.VC_D -> output.add(new DoTranslateMessage());
+      case NativeKeyEvent.VC_Q -> output.add(new DoTranslateMessage());
     }
   }
 

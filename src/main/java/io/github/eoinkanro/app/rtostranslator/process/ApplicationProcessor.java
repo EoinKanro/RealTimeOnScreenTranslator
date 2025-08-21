@@ -4,6 +4,7 @@ import io.github.eoinkanro.app.rtostranslator.process.message.Message;
 import io.github.eoinkanro.app.rtostranslator.process.message.OpenSettingsMessage;
 import io.github.eoinkanro.app.rtostranslator.process.message.SelectAreaMessage;
 import io.github.eoinkanro.app.rtostranslator.process.message.StartStopMessage;
+import io.github.eoinkanro.app.rtostranslator.process.message.UpdateSettingsMessage;
 import io.github.eoinkanro.app.rtostranslator.settings.SettingsContext;
 import io.github.eoinkanro.app.rtostranslator.settings.SettingsProvider;
 import io.github.eoinkanro.app.rtostranslator.swing.chat.ChatOverlay;

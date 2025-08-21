@@ -1,6 +1,5 @@
-package io.github.eoinkanro.app.rtostranslator.process;
+package io.github.eoinkanro.app.rtostranslator.process.message;
 
-import io.github.eoinkanro.app.rtostranslator.process.message.MessageWithData;
 import io.github.eoinkanro.app.rtostranslator.settings.SettingsContext;
 
 public class UpdateSettingsMessage extends MessageWithData<SettingsContext> {

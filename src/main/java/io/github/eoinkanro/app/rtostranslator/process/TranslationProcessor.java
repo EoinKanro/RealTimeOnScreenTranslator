@@ -81,6 +81,10 @@ public class TranslationProcessor extends Thread implements Closeable {
             chatOverlay.changeStatus("Getting text from screen...");
             String textToTranslate = ocrProvider.getText(image);
 
+            if (textToTranslate != null) {
+                textToTranslate = textToTranslate.trim();
+            }
+
             if (!Objects.equals(lastCapturedText, textToTranslate)) {
                 lastCapturedText = textToTranslate;
                 chatOverlay.changeStatus("Translating text...");
@@ -89,6 +93,7 @@ public class TranslationProcessor extends Thread implements Closeable {
 
             chatOverlay.changeStatus("Done");
         } catch (Exception e) {
+            chatOverlay.changeStatus("Error");
             LogUtils.logError(e);
         }
     }

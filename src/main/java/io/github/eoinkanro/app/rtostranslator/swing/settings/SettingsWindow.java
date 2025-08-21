@@ -9,8 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 //todo add translators
-//todo add hotKeys
-//todo hokey translate once without starting
+//todo fix auto scrolling chat
 public class SettingsWindow {
 
   private boolean isOpened = false;

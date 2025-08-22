@@ -1,8 +1,6 @@
 package io.github.eoinkanro.app.rtostranslator.swing.chat;
 
-import com.github.kwhat.jnativehook.GlobalScreen;
 import io.github.eoinkanro.app.rtostranslator.process.message.Message;
-import io.github.eoinkanro.app.rtostranslator.utils.LogUtils;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Point;
@@ -48,8 +46,6 @@ public class ChatOverlay extends JFrame {
     enableResizing(chatContent);
     enableResizing(statusBar);
 
-    enableHotKeys();
-
     setVisible(true);
     requestFocusInWindow();
   }
@@ -63,15 +59,6 @@ public class ChatOverlay extends JFrame {
         this,
         resizingPoint,
         resizingBounds));
-  }
-
-  private void enableHotKeys() {
-    try {
-      GlobalScreen.registerNativeHook();
-      GlobalScreen.addNativeKeyListener(new HotKeysListener(output));
-    } catch (Exception e) {
-      LogUtils.logError(e);
-    }
   }
 
   public void changeStatus(String text) {

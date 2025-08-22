@@ -10,9 +10,7 @@ import io.github.eoinkanro.app.rtostranslator.translator.MockTranslator;
 import io.github.eoinkanro.app.rtostranslator.translator.OllamaTranslator;
 import io.github.eoinkanro.app.rtostranslator.translator.Translator;
 import io.github.eoinkanro.app.rtostranslator.utils.LogUtils;
-import lombok.Setter;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.Closeable;
 import java.util.Objects;
@@ -25,9 +23,6 @@ public class TranslationProcessor extends Thread implements Closeable {
 
     private final Translator translator;
     private final OcrProvider ocrProvider;
-
-    @Setter
-    private Rectangle screenArea;
 
     private boolean isRunning = false;
     private String lastCapturedText;
@@ -76,17 +71,23 @@ public class TranslationProcessor extends Thread implements Closeable {
     }
 
     public void doTranslate() {
+        doTranslate(false, screenAreaSelectorOverlay.captureScreen());
+    }
+
+    public void doForceTranslate(BufferedImage image) {
+        doTranslate(true, image);
+    }
+
+    private void doTranslate(boolean force, BufferedImage image) {
         try {
-            BufferedImage image = screenAreaSelectorOverlay.captureScreen(screenArea);
             chatOverlay.changeStatus("Getting text from screen...");
             String textToTranslate = ocrProvider.getText(image);
 
-            //todo force translate
             if (textToTranslate != null) {
                 textToTranslate = textToTranslate.trim();
             }
 
-            if (!Objects.equals(lastCapturedText, textToTranslate)) {
+            if (force || !Objects.equals(lastCapturedText, textToTranslate)) {
                 lastCapturedText = textToTranslate;
                 chatOverlay.changeStatus("Translating text...");
                 chatOverlay.addMessage(translator.translate(textToTranslate));

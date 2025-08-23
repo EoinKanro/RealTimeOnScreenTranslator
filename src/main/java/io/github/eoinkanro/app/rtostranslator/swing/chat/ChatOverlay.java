@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+//todo set icon
 public class ChatOverlay extends JFrame {
 
   private static final Color TRANSPARENT = new Color(0, 0, 0, 0);

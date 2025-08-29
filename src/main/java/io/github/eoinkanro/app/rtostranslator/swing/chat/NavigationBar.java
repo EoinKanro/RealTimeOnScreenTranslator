@@ -21,8 +21,18 @@ class NavigationBar extends JPanel {
 
   private static final Color BACKGROUND = new Color(0, 0, 0, 229);
 
-  private static final String START_TEXT = "▶";
-  private static final String STOP_TEXT = "◼";
+  private static final String START_SYMBOL = "▶";
+  private static final String STOP_SYMBOL = "◼";
+  public static final String START_STOP_TOOL_TIP = "Start/Stop auto translator";
+
+  public static final String TRANSLATE_SYMBOL = "\uD83D\uDDEA";
+  public static final String TRANSLATE_TOOL_TIP = "Translate once";
+
+  public static final String AREA_SYMBOL = "⛶";
+  public static final String AREA_TOOL_TIP = "Select screen area";
+
+  public static final String SETTINGS_SYMBOL = "⚙";
+  public static final String SETTINGS_TOOL_TIP = "Settings";
 
   private final MenuButton startStopButton;
   private final AtomicReference<Point> draggingPoint;
@@ -42,45 +52,49 @@ class NavigationBar extends JPanel {
     actionButtons.setOpaque(false);
 
     //-------- Start / Stop ---------
-    startStopButton = new MenuButton(START_TEXT);
+    startStopButton = new MenuButton(START_SYMBOL);
     startStopButton.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
         output.add(new StartStopMessage());
       }
     });
+    startStopButton.setToolTipText(START_STOP_TOOL_TIP);
     actionButtons.add(startStopButton);
 
     //--------- Translate ----------
-    MenuButton translateButton = new MenuButton("\uD83D\uDDEA");
+    MenuButton translateButton = new MenuButton(TRANSLATE_SYMBOL);
     translateButton.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
         output.add(new DoTranslateEmptyMessage());
       }
     });
+    translateButton.setToolTipText(TRANSLATE_TOOL_TIP);
     actionButtons.add(translateButton);
 
     //----------- Area -------------
-    MenuButton areaButton = new MenuButton("⛶");
+    MenuButton areaButton = new MenuButton(AREA_SYMBOL);
     areaButton.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
         output.add(new SelectAreaMessage());
       }
     });
+    areaButton.setToolTipText(AREA_TOOL_TIP);
     actionButtons.add(areaButton);
 
     add(actionButtons, BorderLayout.WEST);
 
     //--------- Settings --------
-    MenuButton settingsButton = new MenuButton("⚙");
+    MenuButton settingsButton = new MenuButton(SETTINGS_SYMBOL);
     settingsButton.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
         output.add(new OpenSettingsMessage());
       }
     });
+    settingsButton.setToolTipText(SETTINGS_TOOL_TIP);
     actionButtons.add(settingsButton);
 
 
@@ -103,7 +117,7 @@ class NavigationBar extends JPanel {
   }
 
   public void changeStartStopText(boolean isRunning) {
-    String text = isRunning ? STOP_TEXT : START_TEXT;
+    String text = isRunning ? STOP_SYMBOL : START_SYMBOL;
     startStopButton.setText(text);
   }
 

@@ -16,6 +16,7 @@ import io.github.eoinkanro.app.rtostranslator.swing.settings.SettingsWindow;
 
 import io.github.eoinkanro.app.rtostranslator.utils.LogUtils;
 import java.awt.AWTException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -90,6 +91,8 @@ public class ApplicationProcessor extends Thread {
 
         if (isTranslatorRunning()) {
             restartTranslator();
+        } else if (translationProcessor != null) {
+            recreateTranslator();
         }
     }
 
@@ -97,14 +100,18 @@ public class ApplicationProcessor extends Thread {
         screenAreaSelectorOverlay.selectScreenArea();
     }
 
-    private void restartTranslator() {
+    private void recreateTranslator() {
         stopTranslator();
 
         try {
             createTranslationProcessor();
         } catch (Exception e) {
-            return;
+            System.out.println(Arrays.toString(e.getStackTrace()));
         }
+    }
+
+    private void restartTranslator() {
+        recreateTranslator();
 
         translationProcessor.start();
         chatOverlay.updateRunningStatus(true);

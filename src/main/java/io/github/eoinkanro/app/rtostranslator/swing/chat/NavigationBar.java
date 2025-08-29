@@ -1,5 +1,6 @@
 package io.github.eoinkanro.app.rtostranslator.swing.chat;
 
+import io.github.eoinkanro.app.rtostranslator.process.message.DoTranslateEmptyMessage;
 import io.github.eoinkanro.app.rtostranslator.process.message.Message;
 import io.github.eoinkanro.app.rtostranslator.process.message.OpenSettingsMessage;
 import io.github.eoinkanro.app.rtostranslator.process.message.SelectAreaMessage;
@@ -20,8 +21,8 @@ class NavigationBar extends JPanel {
 
   private static final Color BACKGROUND = new Color(0, 0, 0, 229);
 
-  private static final String START_TEXT = "Start";
-  private static final String STOP_TEXT = "Stop";
+  private static final String START_TEXT = "▶";
+  private static final String STOP_TEXT = "◼";
 
   private final MenuButton startStopButton;
   private final AtomicReference<Point> draggingPoint;
@@ -50,18 +51,18 @@ class NavigationBar extends JPanel {
     });
     actionButtons.add(startStopButton);
 
-    //--------- Settings --------
-    MenuButton settingsButton = new MenuButton("Settings");
-    settingsButton.addMouseListener(new MouseAdapter() {
+    //--------- Translate ----------
+    MenuButton translateButton = new MenuButton("\uD83D\uDDEA");
+    translateButton.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
-        output.add(new OpenSettingsMessage());
+        output.add(new DoTranslateEmptyMessage());
       }
     });
-    actionButtons.add(settingsButton);
+    actionButtons.add(translateButton);
 
     //----------- Area -------------
-    MenuButton areaButton = new MenuButton("Area");
+    MenuButton areaButton = new MenuButton("⛶");
     areaButton.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
@@ -71,6 +72,18 @@ class NavigationBar extends JPanel {
     actionButtons.add(areaButton);
 
     add(actionButtons, BorderLayout.WEST);
+
+    //--------- Settings --------
+    MenuButton settingsButton = new MenuButton("⚙");
+    settingsButton.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        output.add(new OpenSettingsMessage());
+      }
+    });
+    actionButtons.add(settingsButton);
+
+
 
     //---------- Draggable ----------
     addMouseListener(new MouseAdapter() {

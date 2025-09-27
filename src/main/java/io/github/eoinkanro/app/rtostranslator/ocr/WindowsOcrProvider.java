@@ -1,5 +1,7 @@
 package io.github.eoinkanro.app.rtostranslator.ocr;
 
+import io.github.eoinkanro.app.rtostranslator.utils.LogUtils;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,9 +16,9 @@ public class WindowsOcrProvider extends FileOcrProvider {
   private static final String SCRIPT_NAME = "WinOCR.ps1";
   private static final String EXIT_COMMAND = "EXIT";
 
-  private Process process;
-  private BufferedWriter processWriter;
-  private BufferedReader processReader;
+  private final Process process;
+  private final BufferedWriter processWriter;
+  private final BufferedReader processReader;
 
   public WindowsOcrProvider() throws IOException, URISyntaxException {
     String pathToScript = Paths.get(WindowsOcrProvider.class.getClassLoader()
@@ -55,7 +57,7 @@ public class WindowsOcrProvider extends FileOcrProvider {
 
       process.destroy();
     } catch (Exception e) {
-      //todo
+        LogUtils.logError(e);
     }
   }
 

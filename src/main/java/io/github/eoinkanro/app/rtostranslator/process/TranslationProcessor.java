@@ -9,6 +9,7 @@ import io.github.eoinkanro.app.rtostranslator.swing.screenselector.ScreenAreaSel
 import io.github.eoinkanro.app.rtostranslator.translator.MockTranslator;
 import io.github.eoinkanro.app.rtostranslator.translator.OllamaTranslator;
 import io.github.eoinkanro.app.rtostranslator.translator.Translator;
+import io.github.eoinkanro.app.rtostranslator.utils.LogUtils;
 import lombok.Setter;
 
 import java.awt.*;
@@ -69,8 +70,7 @@ public class TranslationProcessor extends Thread implements Closeable {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             } catch (Exception e) {
-                //todo
-                System.out.println(e.getMessage());
+                LogUtils.logError(e);
             }
         }
     }
@@ -89,8 +89,7 @@ public class TranslationProcessor extends Thread implements Closeable {
 
             chatOverlay.changeStatus("Done");
         } catch (Exception e) {
-            //todo
-            System.out.println(e.getMessage());
+            LogUtils.logError(e);
         }
     }
 
@@ -106,8 +105,7 @@ public class TranslationProcessor extends Thread implements Closeable {
             try {
                 closeable.close();
             } catch (Exception e) {
-                //todo
-                System.out.println(e.getMessage());
+                LogUtils.logError(e);
             }
         }
     }

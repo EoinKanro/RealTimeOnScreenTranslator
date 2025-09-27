@@ -33,6 +33,18 @@ public class SettingsContext {
   @Builder.Default
   private int translatorPort = 11434;
   @Builder.Default
-  private String translatorPrompt = "My prompt";
+  private String translatorPrompt = "You are a translation engine.  \n"
+      + "Input: a JSON object with three fields:  \n"
+      + "- \"sourceLanguage\": the language of the input text  \n"
+      + "- \"targetLanguage\": the language to translate into  \n"
+      + "- \"text\": the text to translate  \n"
+      + "\n"
+      + "Instructions:  \n"
+      + "- Translate ONLY the value of \"text\" from sourceLanguage to targetLanguage.  \n"
+      + "- Output ONLY the translated text as plain text.  \n"
+      + "- Do NOT output JSON, explanations, comments, formatting, or additional content.  \n"
+      + "- If you output anything other than the translated text, it is an error.  \n"
+      + "\n"
+      + "Request JSON: ";
 
 }

@@ -53,12 +53,19 @@ jar {
 tasks.register('copyExtra', Copy) {
     into("$projectDir/build/libs")
 
-    from("$projectDir/tesseract") {
+    from("$projectDir/extra/tesseract") {
         into 'tesseract'
     }
 
-    from("$projectDir/start.bat")
-    from("$projectDir/start.sh")
+    from("$projectDir/extra/start.bat")
+    from("$projectDir/extra/start.sh")
+
+    from("$projectDir/extra/icon/ico/icon256.ico") {
+        rename { "icon.ico" }
+    }
+    from("$projectDir/extra/icon/png/icon256.png") {
+        rename { "icon.png" }
+    }
 }
 
 tasks.build {

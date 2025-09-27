@@ -28,6 +28,10 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 
+//todo refactor
+//todo add translators
+//todo add hotKeys
+//todo hokey translate once without starting
 public class SettingsWindow {
 
   private boolean isOpened = false;

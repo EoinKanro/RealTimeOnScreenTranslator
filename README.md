@@ -14,7 +14,11 @@ Features:
 
    - Tesseract: Open-source OCR engine for broader compatibility
 
- - Translation via Ollama: Local translation processing using Ollama's AI models
+ - Translation: 
+   
+   - Ollama: Local translation processing using Ollama's AI models
+
+   - Google: simple free online solution
 
  - Two Operation Modes:
 
@@ -23,4 +27,4 @@ Features:
    - Manual Mode: Capture text using a hotkey
 
 
-![demo](Demo.png)
+![demo](Demo1.0.0.png)

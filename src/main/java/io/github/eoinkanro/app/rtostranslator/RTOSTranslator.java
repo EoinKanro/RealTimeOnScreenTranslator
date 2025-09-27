@@ -10,7 +10,7 @@ import io.github.eoinkanro.app.rtostranslator.process.StartStopMessage;
 import io.github.eoinkanro.app.rtostranslator.process.UpdateSettingsMessage;
 import io.github.eoinkanro.app.rtostranslator.settings.SettingsContext;
 import io.github.eoinkanro.app.rtostranslator.swing.chat.ChatOverlay;
-import io.github.eoinkanro.app.rtostranslator.swing.ScreenAreaSelectorOverlay;
+import io.github.eoinkanro.app.rtostranslator.swing.screenselector.ScreenAreaSelectorOverlay;
 import io.github.eoinkanro.app.rtostranslator.swing.settings.SettingsWindow;
 import io.github.eoinkanro.app.rtostranslator.translator.OllamaTranslator;
 import io.github.eoinkanro.app.rtostranslator.translator.Translator;

@@ -21,4 +21,5 @@ Features:
 
    - Manual Mode: Capture text using a hotkey
 
+
 ![demo](demo.png)

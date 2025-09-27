@@ -26,8 +26,6 @@ class NavigationBar extends JPanel {
   private final MenuButton startStopButton;
   private final AtomicReference<Point> draggingPoint;
 
-  private boolean isStarted = false;
-
   public NavigationBar(JFrame mainFrame, BlockingQueue<Message> output) {
     this.draggingPoint = new AtomicReference<>();
 

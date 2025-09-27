@@ -38,6 +38,7 @@ public class ChatOverlay extends JFrame {
 
     this.statusBar = new StatusBar();
     add(statusBar, BorderLayout.SOUTH);
+    statusBar.chageStatus("Stopped");
 
     enableResizing(chatContent);
     enableResizing(statusBar);
@@ -78,7 +79,6 @@ public class ChatOverlay extends JFrame {
     chatFrame.addMessage("NEW MESSAGE");
     chatFrame.addMessage("NEW MESSAGE2");
     chatFrame.addMessage("TEST a;skda;skd;aks;dka ;skd;laks kdoirrgiu hrth woierjoiwe ksjfdbfhj gsebrtb abwejhjfrb awieraiu wheoharwoeih aiwbekrjabw eraiuwehria hwuehraweb kjawekjrbawkej");
-    chatFrame.changeStatus("NEW STATUS");
   }
 
 }

@@ -91,9 +91,8 @@ class NavigationBar extends JPanel {
     });
   }
 
-  public void changeStartStopText() {
-    isStarted = !isStarted;
-    String text = isStarted ? STOP_TEXT : START_TEXT;
+  public void changeStartStopText(boolean isRunning) {
+    String text = isRunning ? STOP_TEXT : START_TEXT;
     startStopButton.setText(text);
   }
 

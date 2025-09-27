@@ -1,6 +1,5 @@
 package io.github.eoinkanro.app.rtostranslator.swing.settings;
 
-
 import io.github.eoinkanro.app.rtostranslator.settings.SettingsContext;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -8,8 +7,6 @@ import java.util.concurrent.CompletableFuture;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-//todo add translators
-//todo fix auto scrolling chat
 public class SettingsWindow {
 
   private boolean isOpened = false;
@@ -42,11 +39,6 @@ public class SettingsWindow {
         settingsFrame.dispose();
       }
     });
-  }
-
-  public static void main(String[] args) {
-    SettingsWindow settingsWindow = new SettingsWindow();
-    System.out.println(settingsWindow.selectSettings(null).join());
   }
 
 }

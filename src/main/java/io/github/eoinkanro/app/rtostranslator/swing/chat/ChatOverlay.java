@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicReference;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,7 +15,6 @@ public class ChatOverlay extends JFrame {
 
   private static final Color TRANSPARENT = new Color(0, 0, 0, 0);
 
-  private final BlockingQueue<Message> output;
   private final AtomicReference<Point> resizingPoint = new AtomicReference<>();
   private final AtomicReference<Rectangle> resizingBounds = new AtomicReference<>();
 
@@ -25,8 +23,6 @@ public class ChatOverlay extends JFrame {
   private final StatusBar statusBar;
 
   public ChatOverlay(BlockingQueue<Message> output) {
-    this.output = output;
-
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     setUndecorated(true);
     setBackground(TRANSPARENT);
@@ -74,17 +70,6 @@ public class ChatOverlay extends JFrame {
 
   public void updateRunningStatus(boolean isRunning) {
       navigationBar.changeStartStopText(isRunning);
-  }
-
-  public static void main(String[] args) {
-    ChatOverlay chatFrame = new ChatOverlay(new LinkedBlockingQueue<>());
-
-    for (int i = 0; i < 50; i++) {
-      chatFrame.addMessage("Message " + i);
-    }
-    chatFrame.addMessage("NEW MESSAGE");
-    chatFrame.addMessage("NEW MESSAGE2");
-    chatFrame.addMessage("TEST a;skda;skd;aks;dka ;skd;laks kdoirrgiu hrth woierjoiwe ksjfdbfhj gsebrtb abwejhjfrb awieraiu wheoharwoeih aiwbekrjabw eraiuwehria hwuehraweb kjawekjrbawkej");
   }
 
 }

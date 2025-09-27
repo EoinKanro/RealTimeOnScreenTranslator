@@ -1,6 +1,7 @@
 package io.github.eoinkanro.app.rtostranslator.process;
 
 import com.github.kwhat.jnativehook.GlobalScreen;
+import io.github.eoinkanro.app.rtostranslator.process.message.DoTranslateEmptyMessage;
 import io.github.eoinkanro.app.rtostranslator.process.message.DoTranslateMessage;
 import io.github.eoinkanro.app.rtostranslator.process.message.Message;
 import io.github.eoinkanro.app.rtostranslator.process.message.OpenSettingsMessage;
@@ -16,7 +17,6 @@ import io.github.eoinkanro.app.rtostranslator.swing.settings.SettingsWindow;
 
 import io.github.eoinkanro.app.rtostranslator.utils.LogUtils;
 import java.awt.AWTException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -54,6 +54,7 @@ public class ApplicationProcessor extends Thread {
         handlers.put(UpdateSettingsMessage.class, message -> updateSettings(((UpdateSettingsMessage) message).getData()));
         handlers.put(SelectAreaMessage.class, message -> selectScreenArea());
         handlers.put(DoTranslateMessage.class, message -> doOneTranslate((DoTranslateMessage) message));
+        handlers.put(DoTranslateEmptyMessage.class, message -> doOneTranslate());
 
         handlers.put(StartStopMessage.class, message -> {
             if (isTranslatorRunning()) {
@@ -106,7 +107,7 @@ public class ApplicationProcessor extends Thread {
         try {
             createTranslationProcessor();
         } catch (Exception e) {
-            System.out.println(Arrays.toString(e.getStackTrace()));
+            //do nothing
         }
     }
 
@@ -143,6 +144,17 @@ public class ApplicationProcessor extends Thread {
             chatOverlay.updateRunningStatus(false);
             chatOverlay.changeStatus(STOPPED_STATUS);
         }
+    }
+
+    private void doOneTranslate() {
+        if (translationProcessor == null) {
+            try {
+                createTranslationProcessor();
+            } catch (TranslationCreationException e) {
+                return;
+            }
+        }
+        messages.add(new DoTranslateMessage(screenAreaSelectorOverlay.captureScreen()));
     }
 
     private void doOneTranslate(DoTranslateMessage message) {

@@ -32,6 +32,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import lombok.RequiredArgsConstructor;
 
 public class ChatOverlay extends JFrame {
@@ -170,7 +171,7 @@ public class ChatOverlay extends JFrame {
     chatScrollPane.setBorder(null);
 
     chatScrollPane.getVerticalScrollBar().setOpaque(false);
-    chatScrollPane.getHorizontalScrollBar().setOpaque(false);
+    chatScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     chatScrollPane.getVerticalScrollBar().setUI(new javax.swing.plaf.basic.BasicScrollBarUI() {
       @Override
       protected void configureScrollBarColors() {
@@ -238,12 +239,16 @@ public class ChatOverlay extends JFrame {
     messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.Y_AXIS));
     messagePanel.setOpaque(false);
 
-    JLabel messageLabel = new JLabel(text);
-    messageLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-    messageLabel.setFont(CHAT_FONT);
-    messageLabel.setForeground(Color.WHITE);
+    JTextArea textArea = new JTextArea();
+    textArea.setLineWrap(true);
+    textArea.setWrapStyleWord(true);
+    textArea.setEditable(false);
+    textArea.setOpaque(false);
+    textArea.setText(text);
+    textArea.setFont(CHAT_FONT);
+    textArea.setForeground(Color.WHITE);
 
-    messagePanel.add(messageLabel);
+    messagePanel.add(textArea);
     messagePanel.add(Box.createVerticalStrut(10));
 
     chatPanel.add(messagePanel);

@@ -16,10 +16,10 @@ public class SettingsContext {
   @Builder.Default
   private Language sourceLanguage = Language.ENGLISH;
   @Builder.Default
-  private Language targetLanguage = Language.ENGLISH;
+  private Language targetLanguage = Language.RUSSIAN;
 
   @Builder.Default
-  private long updatePeriodMs = 1000;
+  private long updatePeriodMs = 2000;
 
   @Builder.Default
   private OcrEngine ocrEngine = OcrEngine.TESSERACT_OCR;

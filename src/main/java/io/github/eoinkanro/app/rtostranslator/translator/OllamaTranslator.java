@@ -21,7 +21,7 @@ public class OllamaTranslator implements Translator {
   private static final String TEXT_PARAM = "text";
   private static final String RESPONSE_PARAM = "response";
 
-  private static final String THINK_TAG = "think";
+  private static final String THINK_TAG = "</think>";
 
   private final SettingsContext settingsContext;
   private final HttpClient httpClient;
@@ -76,14 +76,13 @@ public class OllamaTranslator implements Translator {
   private String parseResponse(String response) throws JsonProcessingException {
     ObjectNode responseJson = objectMapper.readValue(response, ObjectNode.class);
 
-    String responseString = responseJson.get(RESPONSE_PARAM).asText();
-    if (!responseString.contains(THINK_TAG)) {
-      return responseString;
+    String resultString = responseJson.get(RESPONSE_PARAM).asText();
+    String[] result = resultString.split(THINK_TAG);
+    if (result.length > 1) {
+      return result[result.length - 1];
     }
 
-    // +1 - end of tag ">"
-    int lastIndex = responseString.lastIndexOf(THINK_TAG) + THINK_TAG.length() + 1;
-    return responseString.substring(lastIndex);
+    return resultString;
   }
 
   public void close() {

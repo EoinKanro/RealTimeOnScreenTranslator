@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JButton;
 
-public class MenuButton extends JButton {
+class MenuButton extends JButton {
 
   private static final Font FONT = new Font(Font.DIALOG, Font.BOLD, 14);
 

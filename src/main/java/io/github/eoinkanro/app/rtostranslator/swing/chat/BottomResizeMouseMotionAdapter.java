@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class BottomResizeMouseMotionAdapter extends MouseMotionAdapter {
+class BottomResizeMouseMotionAdapter extends MouseMotionAdapter {
 
   private static final int BORDER_SIZE = 7;
   private static final int MIN_WIDTH = 300;

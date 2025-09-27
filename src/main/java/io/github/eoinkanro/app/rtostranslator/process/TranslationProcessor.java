@@ -6,7 +6,7 @@ import io.github.eoinkanro.app.rtostranslator.ocr.WindowsOcrProvider;
 import io.github.eoinkanro.app.rtostranslator.settings.SettingsContext;
 import io.github.eoinkanro.app.rtostranslator.swing.chat.ChatOverlay;
 import io.github.eoinkanro.app.rtostranslator.swing.screenselector.ScreenAreaSelectorOverlay;
-import io.github.eoinkanro.app.rtostranslator.translator.MockTranslator;
+import io.github.eoinkanro.app.rtostranslator.translator.GoogleTranslator;
 import io.github.eoinkanro.app.rtostranslator.translator.OllamaTranslator;
 import io.github.eoinkanro.app.rtostranslator.translator.Translator;
 import io.github.eoinkanro.app.rtostranslator.utils.LogUtils;
@@ -34,7 +34,7 @@ public class TranslationProcessor extends Thread implements Closeable {
 
         translator = switch (settingsContext.getTranslatorEngine()) {
             case OLLAMA -> new OllamaTranslator(settingsContext);
-            case GOOGLE -> new MockTranslator(); //todo
+            case GOOGLE -> new GoogleTranslator(settingsContext);
         };
 
         ocrProvider = switch (settingsContext.getOcrEngine()) {

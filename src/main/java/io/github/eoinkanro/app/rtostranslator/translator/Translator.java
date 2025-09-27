@@ -4,7 +4,7 @@ import java.io.Closeable;
 
 public interface Translator extends Closeable {
 
-  String translate(String text);
+  String translate(String text) throws Exception;
 
   default void close() {}
 

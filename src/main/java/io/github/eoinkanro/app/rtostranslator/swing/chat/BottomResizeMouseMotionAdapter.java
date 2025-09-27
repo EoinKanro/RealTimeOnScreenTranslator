@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 public class BottomResizeMouseMotionAdapter extends MouseMotionAdapter {
 
   private static final int BORDER_SIZE = 7;
+  private static final int MIN_WIDTH = 300;
+  private static final int MIN_HEIGHT = 300;
 
   /**
    * Frame that will be resized
@@ -93,7 +95,7 @@ public class BottomResizeMouseMotionAdapter extends MouseMotionAdapter {
       }
     }
 
-    if (bounds.width >= 200 && bounds.height >= 150) {
+    if (bounds.width >= MIN_WIDTH && bounds.height >= MIN_HEIGHT) {
       mainFrame.setBounds(bounds);
     }
   }

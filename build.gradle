@@ -20,6 +20,8 @@ dependencies {
 
     testCompileOnly("org.projectlombok:lombok:1.18.38")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.38")
+
+    implementation("net.sourceforge.tess4j:tess4j:5.16.0")
 }
 
 test {

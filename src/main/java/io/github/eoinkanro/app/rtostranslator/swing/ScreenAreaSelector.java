@@ -1,5 +1,6 @@
 package io.github.eoinkanro.app.rtostranslator.swing;
 
+import java.awt.AWTException;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -11,9 +12,11 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Robot;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.image.BufferedImage;
 import java.util.concurrent.CompletableFuture;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
@@ -25,13 +28,26 @@ public class ScreenAreaSelector {
 
   private static final Color OVERLAY_COLOR = new Color(0, 0, 0, 50);
 
-  public static CompletableFuture<Rectangle> selectScreenArea() {
+  private Robot robot;
+
+  /**
+   * ATTENTION: not thread safe
+   */
+  public BufferedImage captureScreen(Rectangle rect) throws AWTException {
+    if (robot == null) {
+      robot = new Robot();
+    }
+
+    return robot.createScreenCapture(rect);
+  }
+
+  public CompletableFuture<Rectangle> selectScreenArea() {
     CompletableFuture<Rectangle> future = new CompletableFuture<>();
     SwingUtilities.invokeLater(() -> processSelection(future));
     return future;
   }
 
-  private static void processSelection(CompletableFuture<Rectangle> future) {
+  private void processSelection(CompletableFuture<Rectangle> future) {
     Rectangle allScreens = getAllScreensArea();
 
     JWindow overlay = new JWindow();
@@ -48,7 +64,7 @@ public class ScreenAreaSelector {
     selectorOverlay.requestFocusInWindow();
   }
 
-  private static Rectangle getAllScreensArea() {
+  private Rectangle getAllScreensArea() {
     Rectangle allScreens = new Rectangle();
 
     for (GraphicsDevice screen : GraphicsEnvironment.getLocalGraphicsEnvironment()

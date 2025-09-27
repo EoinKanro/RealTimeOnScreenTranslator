@@ -27,6 +27,8 @@ public class SettingsContext {
   @Builder.Default
   private TranslatorEngine translatorEngine = TranslatorEngine.OLLAMA;
   @Builder.Default
+  private String translatorModel = "qwen3:4b";
+  @Builder.Default
   private String translatorAddress = "localhost";
   @Builder.Default
   private int translatorPort = 11434;

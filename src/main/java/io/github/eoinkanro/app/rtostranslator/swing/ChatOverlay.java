@@ -1,5 +1,8 @@
 package io.github.eoinkanro.app.rtostranslator.swing;
 
+import io.github.eoinkanro.app.rtostranslator.process.Message;
+import io.github.eoinkanro.app.rtostranslator.process.OpenSettingsMessage;
+import io.github.eoinkanro.app.rtostranslator.process.StartStopMessage;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -16,6 +19,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicReference;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -39,9 +44,12 @@ public class ChatOverlay extends JFrame {
   private static final Color SCROLLBAR_BACKGROUND = new Color(0, 0, 0, 50);
   private static final Color SCROLLBAR_THUMB = new Color(141, 141, 141, 100);
 
+  private final AtomicReference<Boolean> isStarted = new AtomicReference<>(false);
   private final AtomicReference<Point> draggingPoint = new AtomicReference<>();
   private final AtomicReference<Point> resizingPoint = new AtomicReference<>();
   private final AtomicReference<Rectangle> resizingBounds = new AtomicReference<>();
+
+  private final BlockingQueue<Message> output;
 
   private JPanel chatPanel;
   private JScrollPane chatScrollPane;
@@ -50,7 +58,9 @@ public class ChatOverlay extends JFrame {
   private JPanel statusBar;
   private JLabel statusLabel;
 
-  public ChatOverlay() {
+  public ChatOverlay(BlockingQueue<Message> output) {
+    this.output = output;
+
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     setUndecorated(true);
     setBackground(TRANSPARENT);
@@ -78,13 +88,31 @@ public class ChatOverlay extends JFrame {
 
     JPanel actionButtons = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
     actionButtons.setOpaque(false);
-    //TODO logic
+
     MenuButton startStopButton = new MenuButton("Start");
+    startStopButton.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        if (Boolean.TRUE.equals(isStarted.get())) {
+          isStarted.set(false);
+          startStopButton.setText("Start");
+        } else {
+          isStarted.set(true);
+          startStopButton.setText("Stop");
+        }
+        output.add(new StartStopMessage());
+      }
+    });
     actionButtons.add(startStopButton);
 
-    //todo logic
     MenuButton settingsButton = new MenuButton("Settings");
     actionButtons.add(settingsButton);
+    settingsButton.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        output.add(new OpenSettingsMessage());
+      }
+    });
 
     navigation.add(actionButtons, BorderLayout.WEST);
 
@@ -367,7 +395,7 @@ public class ChatOverlay extends JFrame {
   }
 
   public static void main(String[] args) {
-    ChatOverlay chatFrame = new ChatOverlay();
+    ChatOverlay chatFrame = new ChatOverlay(new LinkedBlockingQueue<>());
 
     for (int i = 0; i < 50; i++) {
       chatFrame.addMessage("Message " + i);

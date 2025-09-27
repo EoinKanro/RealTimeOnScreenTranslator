@@ -24,7 +24,7 @@ import javax.swing.SwingUtilities;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-public class ScreenAreaSelector {
+public class ScreenAreaSelectorOverlay {
 
   private static final Color OVERLAY_COLOR = new Color(0, 0, 0, 50);
 

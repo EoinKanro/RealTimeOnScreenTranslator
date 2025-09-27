@@ -6,7 +6,6 @@ import org.jspecify.annotations.Nullable;
 
 public interface OcrProvider extends Closeable {
 
-  //todo Language?
   @Nullable
   String getText(BufferedImage image);
 

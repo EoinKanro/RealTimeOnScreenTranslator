@@ -1,7 +1,7 @@
 package io.github.eoinkanro.app.rtostranslator.process;
 
-import io.github.eoinkanro.app.rtostranslator.RTOSTranslator;
 import io.github.eoinkanro.app.rtostranslator.settings.SettingsContext;
+import io.github.eoinkanro.app.rtostranslator.settings.SettingsProvider;
 import io.github.eoinkanro.app.rtostranslator.swing.chat.ChatOverlay;
 import io.github.eoinkanro.app.rtostranslator.swing.screenselector.ScreenAreaSelectorOverlay;
 import io.github.eoinkanro.app.rtostranslator.swing.settings.SettingsWindow;
@@ -25,13 +25,14 @@ public class ApplicationProcessor extends Thread {
     private final ScreenAreaSelectorOverlay screenAreaSelectorOverlay = new ScreenAreaSelectorOverlay();
     private final ChatOverlay chatOverlay = new ChatOverlay(messages);
 
+    private final SettingsProvider settingsProvider = new SettingsProvider();
+
     private final Map<Class<?>, Consumer<Object>> handlers = new HashMap<>();
 
     private TranslationProcessor translationProcessor;
 
     public ApplicationProcessor() {
-        //todo load
-        settingsContext.set(SettingsContext.builder().build());
+        settingsContext.set(settingsProvider.loadSettings());
 
         handlers.put(OpenSettingsMessage.class, message -> openSettings());
         handlers.put(UpdateSettingsMessage.class, message -> updateSettings(((UpdateSettingsMessage) message).getData()));
@@ -57,7 +58,7 @@ public class ApplicationProcessor extends Thread {
             return;
         }
 
-        //todo save to file
+        settingsProvider.saveSettings(newSettings);
         settingsContext.set(newSettings);
 
         if (isTranslatorRunning()) {

@@ -147,13 +147,6 @@ public class ApplicationProcessor extends Thread {
     }
 
     private void doOneTranslate() {
-        if (translationProcessor == null) {
-            try {
-                createTranslationProcessor();
-            } catch (TranslationCreationException e) {
-                return;
-            }
-        }
         messages.add(new DoTranslateMessage(screenAreaSelectorOverlay.captureScreen()));
     }
 

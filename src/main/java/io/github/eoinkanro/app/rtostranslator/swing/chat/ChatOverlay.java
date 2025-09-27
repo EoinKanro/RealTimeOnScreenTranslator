@@ -1,6 +1,6 @@
 package io.github.eoinkanro.app.rtostranslator.swing.chat;
 
-import io.github.eoinkanro.app.rtostranslator.process.Message;
+import io.github.eoinkanro.app.rtostranslator.process.message.Message;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Point;

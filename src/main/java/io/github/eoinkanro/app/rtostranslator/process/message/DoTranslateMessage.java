@@ -1,6 +1,11 @@
 package io.github.eoinkanro.app.rtostranslator.process.message;
 
-//todo Image or something
-public class DoTranslateMessage implements Message {
+import java.awt.image.BufferedImage;
+
+public class DoTranslateMessage extends MessageWithData<BufferedImage> {
+
+  public DoTranslateMessage(BufferedImage data) {
+    super(data);
+  }
 
 }

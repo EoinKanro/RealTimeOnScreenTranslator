@@ -1,5 +1,6 @@
 package io.github.eoinkanro.app.rtostranslator.swing.screenselector;
 
+import io.github.eoinkanro.app.rtostranslator.swing.chat.ChatOverlay;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -11,25 +12,38 @@ import java.awt.image.BufferedImage;
 import java.util.concurrent.CompletableFuture;
 import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
+import lombok.Getter;
 
 public class ScreenAreaSelectorOverlay {
 
   private static final Color OVERLAY_COLOR = new Color(0, 0, 0, 50);
 
-  private Robot robot;
+  private final ChatOverlay chatOverlay;
+  private final Robot robot;
 
-  /**
-   * ATTENTION: not thread safe
-   */
-  public BufferedImage captureScreen(Rectangle rect) throws AWTException {
-    if (robot == null) {
-      robot = new Robot();
-    }
+  @Getter
+  private Rectangle screenArea;
 
-    return robot.createScreenCapture(rect);
+  public ScreenAreaSelectorOverlay(ChatOverlay chatOverlay) throws AWTException {
+    this.chatOverlay = chatOverlay;
+    this.robot = new Robot();
   }
 
-  public CompletableFuture<Rectangle> selectScreenArea() {
+  public synchronized BufferedImage captureScreen() {
+    if (screenArea == null) {
+      selectScreenArea();
+    }
+
+    return robot.createScreenCapture(screenArea);
+  }
+
+  public synchronized void selectScreenArea() {
+    chatOverlay.setVisible(false);
+    screenArea = createTaskSelectScreenArea().join();
+    chatOverlay.setVisible(true);
+  }
+
+  private CompletableFuture<Rectangle> createTaskSelectScreenArea() {
     CompletableFuture<Rectangle> future = new CompletableFuture<>();
     SwingUtilities.invokeLater(() -> processSelection(future));
     return future;

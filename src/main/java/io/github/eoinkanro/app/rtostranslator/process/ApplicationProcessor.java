@@ -1,5 +1,6 @@
 package io.github.eoinkanro.app.rtostranslator.process;
 
+import com.github.kwhat.jnativehook.GlobalScreen;
 import io.github.eoinkanro.app.rtostranslator.process.message.DoTranslateMessage;
 import io.github.eoinkanro.app.rtostranslator.process.message.Message;
 import io.github.eoinkanro.app.rtostranslator.process.message.OpenSettingsMessage;
@@ -9,10 +10,12 @@ import io.github.eoinkanro.app.rtostranslator.process.message.UpdateSettingsMess
 import io.github.eoinkanro.app.rtostranslator.settings.SettingsContext;
 import io.github.eoinkanro.app.rtostranslator.settings.SettingsProvider;
 import io.github.eoinkanro.app.rtostranslator.swing.chat.ChatOverlay;
+import io.github.eoinkanro.app.rtostranslator.swing.HotKeysListener;
 import io.github.eoinkanro.app.rtostranslator.swing.screenselector.ScreenAreaSelectorOverlay;
 import io.github.eoinkanro.app.rtostranslator.swing.settings.SettingsWindow;
 
-import java.awt.*;
+import io.github.eoinkanro.app.rtostranslator.utils.LogUtils;
+import java.awt.AWTException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -29,12 +32,11 @@ public class ApplicationProcessor extends Thread {
     private static final String ONE_TRANSLATE_ERROR = "You can't translate manually when translator is running. Stop it and try again.";
 
     private final BlockingQueue<Message> messages = new LinkedBlockingQueue<>();
-    private final AtomicReference<Rectangle> screenArea = new AtomicReference<>();
     private final AtomicReference<SettingsContext> settingsContext = new AtomicReference<>();
 
     private final SettingsWindow settingsWindow = new SettingsWindow();
-    private final ScreenAreaSelectorOverlay screenAreaSelectorOverlay = new ScreenAreaSelectorOverlay();
     private final ChatOverlay chatOverlay = new ChatOverlay(messages);
+    private final ScreenAreaSelectorOverlay screenAreaSelectorOverlay;
 
     private final SettingsProvider settingsProvider = new SettingsProvider();
 
@@ -42,13 +44,15 @@ public class ApplicationProcessor extends Thread {
 
     private TranslationProcessor translationProcessor;
 
-    public ApplicationProcessor() {
+    public ApplicationProcessor() throws AWTException {
+        screenAreaSelectorOverlay = new ScreenAreaSelectorOverlay(chatOverlay);
+
         settingsContext.set(settingsProvider.loadSettings());
 
         handlers.put(OpenSettingsMessage.class, message -> openSettings());
         handlers.put(UpdateSettingsMessage.class, message -> updateSettings(((UpdateSettingsMessage) message).getData()));
         handlers.put(SelectAreaMessage.class, message -> selectScreenArea());
-        handlers.put(DoTranslateMessage.class, message -> doOneTranslate());
+        handlers.put(DoTranslateMessage.class, message -> doOneTranslate((DoTranslateMessage) message));
 
         handlers.put(StartStopMessage.class, message -> {
             if (isTranslatorRunning()) {
@@ -57,6 +61,17 @@ public class ApplicationProcessor extends Thread {
                 restartTranslator();
             }
         });
+
+        enableHotKeys();
+    }
+
+    private void enableHotKeys() {
+        try {
+            GlobalScreen.registerNativeHook();
+            GlobalScreen.addNativeKeyListener(new HotKeysListener(messages, screenAreaSelectorOverlay));
+        } catch (Exception e) {
+            LogUtils.logError(e);
+        }
     }
 
     private void openSettings() {
@@ -79,12 +94,7 @@ public class ApplicationProcessor extends Thread {
     }
 
     private void selectScreenArea() {
-        chatOverlay.setVisible(false);
-        screenArea.set(screenAreaSelectorOverlay.selectScreenArea().join());
-        if (translationProcessor != null) {
-            translationProcessor.setScreenArea(screenArea.get());
-        }
-        chatOverlay.setVisible(true);
+        screenAreaSelectorOverlay.selectScreenArea();
     }
 
     private void restartTranslator() {
@@ -102,12 +112,11 @@ public class ApplicationProcessor extends Thread {
 
     private void createTranslationProcessor() throws TranslationCreationException {
         try {
-            if (screenArea.get() == null) {
+            if (screenAreaSelectorOverlay.getScreenArea() == null) {
                 selectScreenArea();
             }
 
             translationProcessor = new TranslationProcessor(settingsContext.get(), screenAreaSelectorOverlay, chatOverlay);
-            translationProcessor.setScreenArea(screenArea.get());
         } catch (Exception e) {
             chatOverlay.addMessage(e.getMessage());
             chatOverlay.changeStatus(ERROR_STATUS);
@@ -129,7 +138,7 @@ public class ApplicationProcessor extends Thread {
         }
     }
 
-    private void doOneTranslate() {
+    private void doOneTranslate(DoTranslateMessage message) {
         if (isTranslatorRunning()) {
             JOptionPane.showMessageDialog(
                 null,
@@ -148,7 +157,7 @@ public class ApplicationProcessor extends Thread {
             }
         }
 
-        translationProcessor.doTranslate();
+        translationProcessor.doForceTranslate(message.getData());
     }
 
     private boolean isTranslatorRunning() {

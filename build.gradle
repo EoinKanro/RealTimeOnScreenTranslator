@@ -17,10 +17,10 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.19.2")
 
     implementation("org.openjfx:javafx-swing:26-ea+3")
+    implementation("com.github.kwhat:jnativehook:2.2.2")
 
     compileOnly("org.projectlombok:lombok:1.18.38")
     annotationProcessor("org.projectlombok:lombok:1.18.38")
-
     testCompileOnly("org.projectlombok:lombok:1.18.38")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.38")
 

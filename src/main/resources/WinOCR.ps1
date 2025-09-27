@@ -12,9 +12,7 @@ $null = [Windows.Storage.Streams.RandomAccessStream, Windows.Storage.Streams, Co
 
 # Create OCR engine once
 $ocrEngine = [Windows.Media.Ocr.OcrEngine]::TryCreateFromUserProfileLanguages()
-if ($null -eq $ocrEngine) {
-    $ocrEngine = [Windows.Media.Ocr.OcrEngine]::TryCreateFromLanguage([Windows.Globalization.Language]::new("en-US"))
-}
+
 if ($null -eq $ocrEngine) {
     Write-Output "ERROR: Failed to create OcrEngine. Install a language pack."
     exit 1

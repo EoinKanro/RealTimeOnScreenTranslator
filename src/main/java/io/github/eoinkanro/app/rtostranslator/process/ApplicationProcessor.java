@@ -24,6 +24,10 @@ import javax.swing.JOptionPane;
 
 public class ApplicationProcessor extends Thread {
 
+    private static final String ERROR_STATUS = "Error";
+    private static final String STOPPED_STATUS = "Stopped";
+    private static final String ONE_TRANSLATE_ERROR = "You can't translate manually when translator is running. Stop it and try again.";
+
     private final BlockingQueue<Message> messages = new LinkedBlockingQueue<>();
     private final AtomicReference<Rectangle> screenArea = new AtomicReference<>();
     private final AtomicReference<SettingsContext> settingsContext = new AtomicReference<>();
@@ -106,7 +110,7 @@ public class ApplicationProcessor extends Thread {
             translationProcessor.setScreenArea(screenArea.get());
         } catch (Exception e) {
             chatOverlay.addMessage(e.getMessage());
-            chatOverlay.changeStatus("Error");
+            chatOverlay.changeStatus(ERROR_STATUS);
             throw new TranslationCreationException(e);
         }
     }
@@ -121,7 +125,7 @@ public class ApplicationProcessor extends Thread {
             translationProcessor = null;
 
             chatOverlay.updateRunningStatus(false);
-            chatOverlay.changeStatus("Stopped");
+            chatOverlay.changeStatus(STOPPED_STATUS);
         }
     }
 
@@ -129,8 +133,8 @@ public class ApplicationProcessor extends Thread {
         if (isTranslatorRunning()) {
             JOptionPane.showMessageDialog(
                 null,
-                "You can't translate manually when translator is running. Stop it and try again.",
-                "Error",
+                ONE_TRANSLATE_ERROR,
+                ERROR_STATUS,
                 JOptionPane.ERROR_MESSAGE
             );
             return;

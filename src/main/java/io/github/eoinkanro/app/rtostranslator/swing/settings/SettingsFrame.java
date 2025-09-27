@@ -25,6 +25,9 @@ class SettingsFrame extends JFrame {
             + "\nAverage models: https://github.com/tesseract-ocr/tessdata"
             + "\nSlowest models: https://github.com/tesseract-ocr/tessdata_best"
             + "\n\nAdditional Information: https://tesseract-ocr.github.io/tessdoc/Data-Files";
+    private static final String HOTKEYS_DESCRIPTION = "CTRL+ALT+A - select area of screen to translate"
+        + "\nCTRL+ALT+S - start\\stop auto translator"
+        + "\nCTRL+ALT+Q - do one manual translation";
 
     private JComboBox<String> sourceLanguages;
     private JComboBox<String> targetLanguages;
@@ -129,7 +132,7 @@ class SettingsFrame extends JFrame {
         //-------- Hot keys ---------
         panel.add(Box.createVerticalStrut(20));
 
-        JTextArea hotKeys = new JTextArea("hot keys\n\ngfgffgf");
+        JTextArea hotKeys = new JTextArea(HOTKEYS_DESCRIPTION);
         hotKeys.setEditable(false);
         hotKeys.setAlignmentX(Component.LEFT_ALIGNMENT);
         JScrollPane hotKeysScroll = new JScrollPane(hotKeys);

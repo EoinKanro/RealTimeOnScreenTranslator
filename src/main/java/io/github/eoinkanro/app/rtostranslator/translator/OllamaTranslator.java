@@ -9,6 +9,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.nio.charset.StandardCharsets;
 
 public class OllamaTranslator implements Translator {
 
@@ -53,10 +54,11 @@ public class OllamaTranslator implements Translator {
       String body = objectMapper.writeValueAsString(createRequestBody(text));
       HttpRequest httpRequest = HttpRequest.newBuilder()
           .uri(address)
-          .POST(HttpRequest.BodyPublishers.ofString(body))
+          .header("Content-Type", "application/json; charset=UTF-8")
+          .POST(HttpRequest.BodyPublishers.ofString(body, StandardCharsets.UTF_8))
           .build();
 
-      HttpResponse<String> response = httpClient.send(httpRequest, BodyHandlers.ofString());
+      HttpResponse<String> response = httpClient.send(httpRequest, BodyHandlers.ofString(StandardCharsets.UTF_8));
       return parseResponse(response.body());
     } catch (Exception e) {
       return e.getMessage();

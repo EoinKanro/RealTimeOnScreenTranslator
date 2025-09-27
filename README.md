@@ -1,4 +1,5 @@
-### Realtime on screen translator
+
+### <img alt="icon" width="16" height="16"  src="extra/icon/icon.png" /> Realtime on screen translator
 
 A real-time screen translation tool that captures text from your screen and displays translations in an overlay window. 
 

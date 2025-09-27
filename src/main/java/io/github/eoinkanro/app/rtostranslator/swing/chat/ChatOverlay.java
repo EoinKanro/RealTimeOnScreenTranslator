@@ -1,6 +1,7 @@
 package io.github.eoinkanro.app.rtostranslator.swing.chat;
 
 import io.github.eoinkanro.app.rtostranslator.process.message.Message;
+import io.github.eoinkanro.app.rtostranslator.swing.SwingUtils;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Point;
@@ -11,7 +12,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-//todo set icon
 public class ChatOverlay extends JFrame {
 
   private static final Color TRANSPARENT = new Color(0, 0, 0, 0);
@@ -46,6 +46,8 @@ public class ChatOverlay extends JFrame {
 
     enableResizing(chatContent);
     enableResizing(statusBar);
+
+    SwingUtils.setIcon(this);
 
     setVisible(true);
     requestFocusInWindow();

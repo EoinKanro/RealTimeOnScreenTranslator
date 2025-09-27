@@ -5,6 +5,7 @@ import io.github.eoinkanro.app.rtostranslator.settings.OcrEngine;
 import io.github.eoinkanro.app.rtostranslator.settings.SettingsContext;
 import io.github.eoinkanro.app.rtostranslator.settings.TranslatorEngine;
 
+import io.github.eoinkanro.app.rtostranslator.swing.SwingUtils;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -83,6 +84,8 @@ class SettingsFrame extends JFrame {
         add(navPanel, BorderLayout.NORTH);
         add(mainContent, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
+
+        SwingUtils.setIcon(this);
 
         setSettingsToFields(settingsContext);
         setVisible(true);

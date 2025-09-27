@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group = 'io.github.eoinkanro.fun'
+group = 'io.github.eoinkanro.app'
 version = '1.0-SNAPSHOT'
 
 repositories {

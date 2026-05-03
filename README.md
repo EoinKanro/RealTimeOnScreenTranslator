@@ -1,3 +1,4 @@
+MOVED to https://gitlab.com/eoin.kanro/apps/real-time-on-screen-translator
 
 ### <img alt="icon" width="16" height="16"  src="extra/icon/icon.png" /> Realtime on screen translator
 
